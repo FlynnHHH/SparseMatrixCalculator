@@ -1,3 +1,4 @@
+from typing import List
 class Triple:
     def __init__(self, i, j, e):
         self.i = i  # 行号
@@ -8,7 +9,7 @@ class Triple:
 class RLSMatrix:
     def __init__(self, data, mu, nu, tu):
         self.data = data  # 三元组表
-        self.rpos = []  # 矩阵中每一行第一个非零元在三元组表中的位置
+        self.rpos = None  # 矩阵中每一行第一个非零元在三元组表中的位置
         self.mu = mu      # 矩阵的行数
         self.nu = nu      # 矩阵的列数
         self.tu = tu      # 矩阵的非零元个数
@@ -33,21 +34,20 @@ class RLSMatrix:
         for t in range(mu):
             num[self.data[t + 1].i] = num[self.data[t + 1].i] + 1  # 求矩阵中每一行非零元的个数
         self.rpos[1] = 1
-        for index in range(2, mu + 1):
+        for index in range(2, nu + 1):
             self.rpos[index] = self.rpos[index - 1] + num[index - 1]
         return self
 
     def PrintSMatrix(self):
         # 以行列式形式输出矩阵
         for row in range(1, self.mu + 1):
-            print('[', end='')
             for col in range(1, self.nu + 1):
                 if row == self.data[self.rpos[row]][0] and col == self.data[self.rpos[row]][1]:
                     print(self.data[self.rpos[row]][2], end=" ")
                     self.rpos[row] = self.rpos[row] + 1
                 else:
                     print(0, end=" ")
-            print(']')
+            print("\n")
 
 
 def AddSMatrix(A, B):
@@ -73,7 +73,6 @@ def AddSMatrix(A, B):
                     C.data.append([row, col, B.data[B.rpos[row]].e])
                     C.tu = C.tu + 1
                     C.rpos[row] = C.rpos[row] + 1
-    print(C.rpos)
     return C
 
 
@@ -108,8 +107,6 @@ def MulSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, B.nu, 0)
-    C.rpos = [0 for i in range(A.mu + 1)]
-    C.data = [[0, 0, 0]]
     for arow in range(1, A.mu + 1):
         ctemp = [0 for i in range(B.nu)]  # 当前行各元素累加器
         C.rpos[arow] = C.tu + 1
@@ -126,7 +123,7 @@ def MulSMatrix(A, B):
             for q in range(B.rpos[brow], t): 
                 ccol = B.data[q].j  # 乘积在C中的列号
                 ctemp[ccol] += A.data[p].e * B.data[q].e
-        for ccol in range(1, B.nu + 1):
+        for ccol in range(1, C.nu + 1):
             if ctemp[ccol] != 0:
                 C.data.append([arow, ccol, ctemp[ccol]])
                 C.tu = C.tu + 1
