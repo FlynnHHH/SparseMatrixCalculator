@@ -1,2 +1,2 @@
-# SparseMatrixMultiplication
- project from UCAS-Data-Structure lecture
+# SparseMatrixCalculator
+ project from UCAS-Data-Structures lecture
