@@ -40,10 +40,10 @@ class RLSMatrix:
     
     
     def Getrpos(self):
-        self.rpos = [0 for index in range(self.mu + 1)]
-        num = [0 for index in range(self.mu + 1)]
+        self.rpos = [0 for index in range(mu + 1)]
+        num = [0 for index in range(mu + 1)]
         for t in range(self.mu):
-            num[self.data[t + 1][0]] = num[self.data[t + 1][0]] + 1  # 求矩阵中每一行非零元的个数
+            num[self.data[t + 1].i] = num[self.data[t + 1].i] + 1  # 求矩阵中每一行非零元的个数
         self.rpos[1] = 1
         for index in range(2, self.mu + 1):
             self.rpos[index] = self.rpos[index - 1] + num[index - 1]
@@ -68,6 +68,7 @@ def AddSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
+    # C.rpos = [0 for i in range(A.mu + 1)]
     C.data = [[0, 0, 0]]
     for row in range(1, A.mu + 1):
         for col in range(1, A.nu + 1):
@@ -75,14 +76,17 @@ def AddSMatrix(A, B):
                 if B.data[B.rpos[row]].i == row and B.data[B.rpos[row]].j == col:
                     C.data.append([row, col, A.data[A.rpos[row]].e + B.data[B.rpos[row]].e])
                     C.tu = C.tu + 1
+                    #C.rpos[row] = C.rpos[row] + 1
                 else:
                     C.data.append([row, col, A.data[A.rpos[row]].e])
                     C.tu = C.tu + 1
+                    #C.rpos[row] = C.rpos[row] + 1
             else:
                 if B.data[B.rpos[row]].i == row and B.data[B.rpos[row]].j == col:
                     C.data.append([row, col, B.data[B.rpos[row]].e])
                     C.tu = C.tu + 1
-    C.rpos = C.Getrpos()
+                    #C.rpos[row] = C.rpos[row] + 1
+
     return C
 
 
@@ -91,6 +95,7 @@ def SubSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
+    C.rpos = [0 for i in range(A.mu + 1)]
     C.data = [[0, 0, 0]]
     for row in range(1, A.mu + 1):
         for col in range(1, A.nu + 1):
@@ -98,14 +103,17 @@ def SubSMatrix(A, B):
                 if B.data[B.rpos[row]].i == row and B.data[B.rpos[row]].j == col:
                     C.data.append([row, col, A.data[A.rpos[row]].e - B.data[B.rpos[row]].e])
                     C.tu = C.tu + 1
+                    #C.rpos[row] = C.rpos[row] + 1
                 else:
                     C.data.append([row, col, A.data[A.rpos[row]].e])
                     C.tu = C.tu + 1
+                    #C.rpos[row] = C.rpos[row] + 1
             else:
                 if B.data[B.rpos[row]].i == row and B.data[B.rpos[row]].j == col:
                     C.data.append([row, col, -B.data[B.rpos[row]].e])
                     C.tu = C.tu + 1
-    C.rpos = C.Getrpos()
+                    #C.rpos[row] = C.rpos[row] + 1
+    
     return C
 
 
@@ -114,9 +122,11 @@ def MulSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, B.nu, 0)
+    C.rpos = [0 for i in range(A.mu + 1)]
     C.data = [[0, 0, 0]]
     for arow in range(1, A.mu + 1):
-        ctemp = [0 for i in range(B.nu + 1)]  # 当前行各元素累加器
+        ctemp = [0 for i in range(B.nu)]  # 当前行各元素累加器
+        C.rpos[arow] = C.tu + 1
         if arow < A.mu:
             tp = A.rpos[arow + 1]
         else:
@@ -134,7 +144,6 @@ def MulSMatrix(A, B):
             if ctemp[ccol] != 0:
                 C.data.append([arow, ccol, ctemp[ccol]])
                 C.tu = C.tu + 1
-    C.rpos = C.Getrpos()
     return C
 
 
