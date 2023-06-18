@@ -70,15 +70,15 @@ def AddSMatrix(A, B):
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
     C.data = A.data
-    C.tu = A.tu # C的三元组表先置为A的三元组表
+    C.tu = A.tu 
     for index in range(1, B.tu + 1):
         flag = 0
         for k in range(1, A.tu + 1):
             if A.data[k].i == B.data[index].i and A.data[k].j == B.data[index].j:
                 C.data[k].e = C.data[k].e + B.data[index].e
-                flag = 1  # B中当前元素在A中找到了相同位置的元素
+                flag = 1
                 break
-        if flag == 0:  # B中当前元素在A中没有找到相同位置的元素
+        if flag == 0:
             C.data.append(B.data[index])
             C.tu = C.tu + 1
     C.rpos = C.Getrpos()
@@ -90,10 +90,10 @@ def SubSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
-    for index in range(1, B.tu + 1):  # B中每个元素取相反数
+    for index in range(1, B.tu + 1):
         B.data[index].e = -B.data[index].e
     C = AddSMatrix(A, B)
-    for index in range(1, B.tu + 1):  # 还原B中每个元素
+    for index in range(1, B.tu + 1):
         B.data[index].e = -B.data[index].e
     C.rpos = C.Getrpos()
     return C

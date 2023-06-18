@@ -93,7 +93,7 @@ def SubSMatrix(A, B):
     for index in range(1, B.tu + 1):  # B中每个元素取相反数
         B.data[index].e = -B.data[index].e
     C = AddSMatrix(A, B)
-    for index in range(1, B.tu + 1):  # 还原B中每个元素
+    for index in range(1, B.tu + 1):
         B.data[index].e = -B.data[index].e
     C.rpos = C.Getrpos()
     return C
