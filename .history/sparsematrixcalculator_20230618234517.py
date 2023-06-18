@@ -90,11 +90,7 @@ def SubSMatrix(A, B):
         print("ERROR")
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
-    for index in range(1, B.tu + 1):
-        B.data[index].e = -B.data[index].e
-    C = AddSMatrix(A, B)
-    for index in range(1, B.tu + 1):
-        B.data[index].e = -B.data[index].e
+    for index in 
     C.rpos = C.Getrpos()
     return C
 

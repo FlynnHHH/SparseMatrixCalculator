@@ -93,8 +93,7 @@ def SubSMatrix(A, B):
     for index in range(1, B.tu + 1):
         B.data[index].e = -B.data[index].e
     C = AddSMatrix(A, B)
-    for index in range(1, B.tu + 1):
-        B.data[index].e = -B.data[index].e
+    
     C.rpos = C.Getrpos()
     return C
 
