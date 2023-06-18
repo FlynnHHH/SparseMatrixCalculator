@@ -122,8 +122,8 @@ def MulSMatrix(A, B):
                 ctemp[ccol] += A.data[p].e * B.data[q].e
         for ccol in range(1, B.nu + 1):
             if ctemp[ccol] != 0:
-                tri = Triple(arow, ccol, ctemp[ccol])
-                C.data.append(tri)
+                tri = T
+                C.data.append([arow, ccol, ctemp[ccol]])
                 C.tu = C.tu + 1
     C.rpos = C.Getrpos()
     return C
