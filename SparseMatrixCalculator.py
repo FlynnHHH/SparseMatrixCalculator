@@ -135,6 +135,7 @@ A.CreateSMatrix()
 print("请输入矩阵B：")
 B = RLSMatrix(None, 0, 0, 0)
 B.CreateSMatrix()
+print("运算结果为")
 if mode == 1:
     print("A+B=")
     AddSMatrix(A, B).PrintSMatrix()
