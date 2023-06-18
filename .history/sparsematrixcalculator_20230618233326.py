@@ -43,7 +43,7 @@ class RLSMatrix:
         self.rpos = [0 for index in range(self.mu + 1)]
         num = [0 for index in range(self.mu + 1)]
         for t in range(self.tu):
-            num[self.data[t + 1].i] = num[self.data[t + 1].i] + 1  # 求矩阵中每一行非零元的个数
+            num[self.data[t + 1][0]] = num[self.data[t + 1][0]] + 1  # 求矩阵中每一行非零元的个数
         self.rpos[1] = 1
         for index in range(2, self.mu + 1):
             self.rpos[index] = self.rpos[index - 1] + num[index - 1]
@@ -56,8 +56,8 @@ class RLSMatrix:
         for row in range(1, self.mu + 1):
             print('[', end=" ")
             for col in range(1, self.nu + 1):
-                if k <= self.tu and row  == self.data[k].i and col == self.data[k].j:
-                    print(self.data[k].e, end=" ")
+                if k <= self.tu and row  == self.data[k][0] and col == self.data[k][1]:
+                    print(self.data[k][2], end=" ")
                     k = k + 1
                 else:
                     print(0, end=" ")
