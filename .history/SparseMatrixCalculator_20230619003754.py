@@ -88,7 +88,6 @@ def SubSMatrix(A, B):
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
     oppoB = RLSMatrix(None, B.mu, B.nu, B.tu)
-    oppoB.data = B.data
     for index in range(1, oppoB.tu + 1):  # B中每个元素取相反数
         oppoB.data[index].i = B.data[index].i
         oppoB.data[index].j = B.data[index].j
