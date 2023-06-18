@@ -13,7 +13,6 @@ class RLSMatrix:
         self.nu = nu      # 矩阵的列数
         self.tu = tu      # 矩阵的非零元个数
 
-
     def CreateSMatrix(self):
         # 以三元组表形式输入矩阵
         mu, nu, tu = map(int, input("请输入矩阵的行数、列数、非零元的个数，用空格间隔\n").split())
@@ -37,8 +36,7 @@ class RLSMatrix:
         for index in range(2, mu + 1):
             self.rpos[index] = self.rpos[index - 1] + num[index - 1]
         return self
-    
-    
+
     def Getrpos(self):
         self.rpos = [0 for index in range(self.mu + 1)]
         num = [0 for index in range(self.mu + 1)]
@@ -48,15 +46,14 @@ class RLSMatrix:
         for index in range(2, self.mu + 1):
             self.rpos[index] = self.rpos[index - 1] + num[index - 1]
         return self.rpos
-     
-        
+
     def PrintSMatrix(self):
         # 以行列式形式输出矩阵
         k = 1
         for row in range(1, self.mu + 1):
             print('[', end=" ")
             for col in range(1, self.nu + 1):
-                if k <= self.tu and row  == self.data[k].i and col == self.data[k].j:
+                if k <= self.tu and row == self.data[k].i and col == self.data[k].j:
                     print(self.data[k].e, end=" ")
                     k = k + 1
                 else:
@@ -70,7 +67,7 @@ def AddSMatrix(A, B):
         return
     C = RLSMatrix(None, A.mu, A.nu, 0)
     C.data = A.data
-    C.tu = A.tu # C的三元组表先置为A的三元组表
+    C.tu = A.tu  # C的三元组表先置为A的三元组表
     for index in range(1, B.tu + 1):
         flag = 0
         for k in range(1, A.tu + 1):
